@@ -1,0 +1,39 @@
+reset
+
+# contractOwner = Amga6g1TiZxcmcZPYuL3b4mrkB4o25wwahmrn6H3d5M8jXshdMik
+inject contractOwner 1000
+getstate contractOwner
+
+# rootAccount = Amg3LVwEbdnTWHBrrTwRDV85NMYJqERJv2aKrjR3arNRh6YPWydw
+inject rootAccount 1000
+getstate rootAccount
+
+
+
+# deploy openkeychain contract without root address
+deploy contractOwner 0 openkeychainCtr target/openkeychain.lua `[]`
+
+# get root
+query openkeychainCtr getRootAddr `[]` `"Amga6g1TiZxcmcZPYuL3b4mrkB4o25wwahmrn6H3d5M8jXshdMik"`
+query openkeychainCtr getPublishers `[]` `["Amga6g1TiZxcmcZPYuL3b4mrkB4o25wwahmrn6H3d5M8jXshdMik"]`
+
+
+
+reset
+
+# contractOwner = Amga6g1TiZxcmcZPYuL3b4mrkB4o25wwahmrn6H3d5M8jXshdMik
+inject contractOwner 1000
+getstate contractOwner
+
+# rootAccount = Amg3LVwEbdnTWHBrrTwRDV85NMYJqERJv2aKrjR3arNRh6YPWydw
+inject rootAccount 1000
+getstate rootAccount
+
+
+
+# deploy openkeychain contract with specific address
+deploy contractOwner 0 openkeychainCtr target/openkeychain.lua `["Amg3LVwEbdnTWHBrrTwRDV85NMYJqERJv2aKrjR3arNRh6YPWydw"]`
+
+# get root
+query openkeychainCtr getRootAddr `[]` `"Amg3LVwEbdnTWHBrrTwRDV85NMYJqERJv2aKrjR3arNRh6YPWydw"`
+query openkeychainCtr getPublishers `[]` `["Amg3LVwEbdnTWHBrrTwRDV85NMYJqERJv2aKrjR3arNRh6YPWydw"]`

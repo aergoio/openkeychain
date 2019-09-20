@@ -1,0 +1,5 @@
+{
+  "name" : "aergoio/openkeychain",
+  "source" : "src/main/lua/main.lua",
+  "target" : "target/openkeychain.lua"
+}

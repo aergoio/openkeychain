@@ -1,0 +1,54 @@
+reset
+
+# contractOwner = Amga6g1TiZxcmcZPYuL3b4mrkB4o25wwahmrn6H3d5M8jXshdMik
+inject contractOwner 1000
+getstate contractOwner
+
+# rootAccount = Amg3LVwEbdnTWHBrrTwRDV85NMYJqERJv2aKrjR3arNRh6YPWydw
+inject rootAccount 1000
+getstate rootAccount
+
+# pubsAccount = AmgaoGQ9W3BRRZmss5Qu4UbTRa2AUtQ44Mhpt4cwpPQRtutoEjxX
+inject pubsAccount 1000
+getstate pubsAccount
+
+# userAccount1 = Amg38Cp39XTbsytwKJzyfj42iWDx7wNBgoMn9w1pTwGLZcD56gjK
+inject userAccount1 1000
+getstate userAccount1
+
+# userAccount2 = AmgrnQTspVv3JeKzDM5Jx7gad81nRqmTVLarMpeMn5Yd8dnvw5eE
+inject userAccount2 1000
+getstate userAccount2
+
+
+
+# deploy openkeychain contract
+deploy contractOwner 0 openkeychainCtr target/openkeychain.lua `["Amg3LVwEbdnTWHBrrTwRDV85NMYJqERJv2aKrjR3arNRh6YPWydw"]`
+
+# add publisher
+call rootAccount 0 openkeychainCtr addPublisher `["{\"addr\":\"AmgaoGQ9W3BRRZmss5Qu4UbTRa2AUtQ44Mhpt4cwpPQRtutoEjxX\"}", ""]`
+query openkeychainCtr isPublisher `["AmgaoGQ9W3BRRZmss5Qu4UbTRa2AUtQ44Mhpt4cwpPQRtutoEjxX"]` `true`
+
+# regist user 1
+call pubsAccount 0 openkeychainCtr recordRegistration `["{\"addr\":\"Amg38Cp39XTbsytwKJzyfj42iWDx7wNBgoMn9w1pTwGLZcD56gjK\",\"data\":{\"text\":\"sampledata1\"}}", ""]`
+query openkeychainCtr fetchRegistration `["Amg38Cp39XTbsytwKJzyfj42iWDx7wNBgoMn9w1pTwGLZcD56gjK"]` `{"addr":"Amg38Cp39XTbsytwKJzyfj42iWDx7wNBgoMn9w1pTwGLZcD56gjK","data":{"text":"sampledata1"},"publisher":"AmgaoGQ9W3BRRZmss5Qu4UbTRa2AUtQ44Mhpt4cwpPQRtutoEjxX"}`
+query openkeychainCtr checkRegistration `["Amg38Cp39XTbsytwKJzyfj42iWDx7wNBgoMn9w1pTwGLZcD56gjK"]` `true`
+
+# regist user 2
+call pubsAccount 0 openkeychainCtr recordRegistration `["{\"addr\":\"AmgrnQTspVv3JeKzDM5Jx7gad81nRqmTVLarMpeMn5Yd8dnvw5eE\",\"data\":{\"text\":\"sampledata2\"}}", ""]`
+query openkeychainCtr fetchRegistration `["AmgrnQTspVv3JeKzDM5Jx7gad81nRqmTVLarMpeMn5Yd8dnvw5eE"]` `{"addr":"AmgrnQTspVv3JeKzDM5Jx7gad81nRqmTVLarMpeMn5Yd8dnvw5eE","data":{"text":"sampledata2"},"publisher":"AmgaoGQ9W3BRRZmss5Qu4UbTRa2AUtQ44Mhpt4cwpPQRtutoEjxX"}`
+query openkeychainCtr checkRegistration `["AmgrnQTspVv3JeKzDM5Jx7gad81nRqmTVLarMpeMn5Yd8dnvw5eE"]` `true`
+
+# revoke user 1
+call pubsAccount 0 openkeychainCtr revokeRegistration `["Amg38Cp39XTbsytwKJzyfj42iWDx7wNBgoMn9w1pTwGLZcD56gjK"]`
+query openkeychainCtr fetchRegistration `["Amg38Cp39XTbsytwKJzyfj42iWDx7wNBgoMn9w1pTwGLZcD56gjK"]` `{"addr":"Amg38Cp39XTbsytwKJzyfj42iWDx7wNBgoMn9w1pTwGLZcD56gjK","data":{"text":"sampledata1"},"publisher":"AmgaoGQ9W3BRRZmss5Qu4UbTRa2AUtQ44Mhpt4cwpPQRtutoEjxX","revoked":true}`
+query openkeychainCtr fetchRegistration `["AmgrnQTspVv3JeKzDM5Jx7gad81nRqmTVLarMpeMn5Yd8dnvw5eE"]` `{"addr":"AmgrnQTspVv3JeKzDM5Jx7gad81nRqmTVLarMpeMn5Yd8dnvw5eE","data":{"text":"sampledata2"},"publisher":"AmgaoGQ9W3BRRZmss5Qu4UbTRa2AUtQ44Mhpt4cwpPQRtutoEjxX"}`
+query openkeychainCtr checkRegistration `["Amg38Cp39XTbsytwKJzyfj42iWDx7wNBgoMn9w1pTwGLZcD56gjK"]` `false`
+query openkeychainCtr checkRegistration `["AmgrnQTspVv3JeKzDM5Jx7gad81nRqmTVLarMpeMn5Yd8dnvw5eE"]` `true`
+
+# revoke user 2
+call pubsAccount 0 openkeychainCtr revokeRegistration `["AmgrnQTspVv3JeKzDM5Jx7gad81nRqmTVLarMpeMn5Yd8dnvw5eE"]`
+query openkeychainCtr fetchRegistration `["Amg38Cp39XTbsytwKJzyfj42iWDx7wNBgoMn9w1pTwGLZcD56gjK"]` `{"addr":"Amg38Cp39XTbsytwKJzyfj42iWDx7wNBgoMn9w1pTwGLZcD56gjK","data":{"text":"sampledata1"},"publisher":"AmgaoGQ9W3BRRZmss5Qu4UbTRa2AUtQ44Mhpt4cwpPQRtutoEjxX","revoked":true}`
+query openkeychainCtr fetchRegistration `["AmgrnQTspVv3JeKzDM5Jx7gad81nRqmTVLarMpeMn5Yd8dnvw5eE"]` `{"addr":"AmgrnQTspVv3JeKzDM5Jx7gad81nRqmTVLarMpeMn5Yd8dnvw5eE","data":{"text":"sampledata2"},"publisher":"AmgaoGQ9W3BRRZmss5Qu4UbTRa2AUtQ44Mhpt4cwpPQRtutoEjxX","revoked":true}`
+query openkeychainCtr checkRegistration `["Amg38Cp39XTbsytwKJzyfj42iWDx7wNBgoMn9w1pTwGLZcD56gjK"]` `false`
+query openkeychainCtr checkRegistration `["AmgrnQTspVv3JeKzDM5Jx7gad81nRqmTVLarMpeMn5Yd8dnvw5eE"]` `false`
